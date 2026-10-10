@@ -41,3 +41,7 @@ Five primary mobile destinations: **Home, Discover, Following, Messages, Me**. H
 Run from this folder: `for f in tests/*.js; do node "$f"; done`
 
 Static tests and archive integrity do not prove real-device rendering, Supabase RLS correctness, or live notifications. Complete the staging checklist before production deployment. Do not apply database migrations blindly to production.
+
+
+## V18.5 mobile Home frame restoration
+The V18.5 patch restores the signed-in mobile Home layout to the supplied reference: full-width feed tabs and a compact one-line Whisper composer row. See `AUDIT-V18.5-HOME-FRAME.md`. Browser/device and live Supabase validation remain required before production.
