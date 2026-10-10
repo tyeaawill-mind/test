@@ -1,0 +1,17 @@
+const fs=require('fs');const assert=require('assert');
+const app=fs.readFileSync('app.js','utf8');const html=fs.readFileSync('index.html','utf8');const css=fs.readFileSync('styles.css','utf8');
+assert(app.includes("async function home(){const target=location.hash||'#home';"),'Home route is explicit');
+assert(app.includes("app.innerHTML=shell('Home')+feedModeNav()+composer()"),'Home uses the composer-first Home layout');
+assert(!app.includes("shell('Whispering','Put down a Whisper"),'Superseded Whispering landing heading is absent');
+assert(app.includes("else if(route==='for-you')feedPage('for-you')"),'For You has its own page');
+assert(app.includes("else if(route==='following')feedPage('following')"),'Following has its own page');
+assert(app.includes("else if(route==='timeline')feedPage('latest')"),'Latest has its own page');
+assert(app.includes("if(mode==='following')"),'Following feed filters followed authors');
+assert(app.includes("else if(mode==='latest'){xs=await listPublicFeed(50)}"),'Latest feed uses newest public feed');
+assert(html.includes('href="#home">⌂<small>Home</small>'),'Mobile Home route exists');
+assert(app.includes('id="recipientSuggestions"')&&app.includes("a.action==='recipient-suggestion'"),'Recipient suggestions can be selected');
+assert(app.includes('Optional location · © OpenStreetMap'),'Location attribution copy is concise');
+assert(css.includes('.tag-field .location-note{display:block;white-space:nowrap'),'Location note is one horizontal line');
+assert(css.includes('.feed-mode-nav{display:flex'),'Feed modes appear in a separate navigation strip');
+assert(css.includes('.media-preview-options .select{font-size:12px'),'Preview selectors use compact text');
+console.log('PASS: V18.3 navigation regression tests updated to V18.4 Home contract');

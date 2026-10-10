@@ -1,0 +1,17 @@
+const fs=require('fs');const assert=require('assert');
+const app=fs.readFileSync('app.js','utf8');const html=fs.readFileSync('index.html','utf8');const sql=fs.readFileSync('MIGRATION-V18.1.sql','utf8');const css=fs.readFileSync('styles.css','utf8');
+assert(app.includes("button.classList.toggle('active',next)")&&app.includes("Like removed."),'optimistic Like with rollback feedback exists');
+assert(app.includes("Saving to Memory…")&&app.includes("Removed from Memory."),'optimistic Memory feedback exists');
+assert(app.includes("Opening share options…")&&!app.slice(app.indexOf('async function share('),app.indexOf('\n',app.indexOf('async function share('))).includes('getWhisper('),'Share has no pre-share database fetch');
+assert(app.includes('Opening reflection…')&&app.includes("location.hash=target"),'Reply opens a routed loading state');
+assert(app.includes('Why am I seeing this?')&&app.includes('Try again'),'recommendation explanation has loading/error recovery');
+assert(app.includes('subscription-toggle')&&app.includes('whisper_subscriptions'),'discussion follow is wired in the UI');
+assert(html.includes('data-route="groups"')&&html.includes('data-route="messages"')&&html.includes('data-route="account"'),'primary nav includes Circles, Messages, Me');
+assert((html.match(/<nav class="mobile-nav"[\s\S]*?<\/nav>/)||[''])[0].match(/<a\b/g).length===5,'mobile nav has five destinations');
+assert(app.includes("route==='community'){location.hash='#groups'}")&&app.includes("route==='spaces'){location.hash='#explore'}")&&app.includes("route==='saved'){location.hash='#memory'}"),'duplicate destinations redirect to canonical routes');
+assert(sql.includes('public.mindrid_can_view_whisper(w.author_id, w.visibility, w.id, auth.uid())'),'subscription RLS calls correct four-argument visibility helper');
+assert(sql.includes('s.user_id <> new.author_id and s.user_id <> owner_id'),'subscriber notifications exclude reply author and thread owner');
+assert(css.includes('min-height:40px')&&css.includes('.mobile-nav a.active'),'touch sizing and active mobile navigation styles exist');
+assert(!app.includes('last_whisper_body')&&!app.includes('receiver_id'),'known stale column names remain absent');
+const uiActions=new Set([...app.matchAll(/data-action=\"([a-z0-9-]+)\"/g)].map(m=>m[1]));const handledActions=new Set([...app.matchAll(/a\.action===['\"]([a-z0-9-]+)['\"]/g)].map(m=>m[1]));assert([...uiActions].every(x=>handledActions.has(x)),'every statically declared UI action has a delegated handler');assert(!/data-reaction=\"dislike\"/.test(app),'negative dislike control is not exposed in reply UI');
+console.log('PASS: optimistic action feedback');console.log('PASS: share/reply perceived responsiveness');console.log('PASS: recommendation explanation recovery');console.log('PASS: follow-discussion UI and RLS signature');console.log('PASS: five-item mobile navigation');console.log('PASS: duplicate route consolidation');console.log('PASS: subscriber notification exclusions');console.log('PASS: touch sizing and stale-column regression checks');console.log('PASS: every declared UI action has a handler');console.log('PASS: negative dislike action is not exposed');
