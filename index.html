@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="mindRID">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <meta name="description" content="mindRID — a social place for reflections you don't want to carry.">
+  <meta property="og:title" content="mindRID">
+  <meta property="og:description" content="Put your reflections somewhere.">
+  <meta property="og:type" content="website">
+  <title>mindRID</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://clqjbxpojrkwduyegwsc.supabase.co" crossorigin>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css?v=20261010-v18-future-centric">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="./app.js?v=20261010-v18-future-centric" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#home" aria-label="mindRID home">mind<span>RID</span></a>
+      <label class="search"><span aria-hidden="true">⌕</span><input id="globalSearch" placeholder="Search mindRID" aria-label="Search mindRID"></label>
+      <button class="account-mini" id="accountNav" data-action="account">Sign in</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <aside class="left-rail" id="leftRail" aria-label="Primary navigation">
+      <div class="nav-section nav-core">
+        <a class="nav-item active" data-route="home" href="#home"><span>⌂</span> Home</a>
+        <a class="nav-item" data-route="explore" href="#explore"><span>⌕</span> Discover</a>
+        <a class="nav-item auth-required" data-route="groups" href="#groups"><span>◌</span> Circles</a>
+        <a class="nav-item auth-required" data-route="messages" href="#messages"><span>✉</span> Messages</a>
+        <a class="nav-item auth-required" data-route="account" href="#account"><span>◉</span> Me</a>
+      </div>
+      <div class="nav-divider"></div>
+      <details class="nav-more">
+        <summary>More</summary>
+        <div class="nav-section">
+          <a class="nav-item auth-required" data-route="notifications" href="#notifications"><span>♧</span> Notifications <b id="notificationBadge" class="nav-badge" hidden>•</b></a>
+          <a class="nav-item auth-required" data-route="network" href="#network"><span>◎</span> Connections</a>
+          <a class="nav-item auth-required" data-route="people" href="#people"><span>♙</span> Find people</a>
+          <a class="nav-item auth-required" data-route="history" href="#history"><span>↶</span> Recently viewed</a>
+          <a class="nav-item auth-required" data-route="live" href="#live"><span>◉</span> Live</a>
+          <a class="nav-item auth-required" data-route="my" href="#my"><span>☷</span> My reflections</a>
+          <a class="nav-item auth-required" data-route="memory" href="#memory"><span>♡</span> Memory</a>
+          <a class="nav-item auth-required" data-route="settings" href="#settings"><span>⚙</span> Settings</a>
+          <a class="nav-item" data-route="help" href="#help"><span>?</span> Help &amp; Support</a>
+        </div>
+      </details>
+      <button class="whisper-cta auth-required" data-action="compose">＋ Whisper</button>
+    </aside>
+
+    <section id="app" class="timeline" tabindex="-1"></section>
+
+    <aside class="right-rail">
+      <section class="side-card">
+        <h3>About mindRID</h3>
+        <p>Get rid of reflections you don't want to carry.</p>
+        <a href="#about">Learn more</a>
+      </section>
+      <section class="side-card privacy-promise-card"><div class="privacy-mark">♡</div><strong>mindRID doesn't sell your emotion or data.</strong><a href="#privacy">Our privacy promise →</a></section><section class="side-card" id="topicCard"><h3>What people are thinking</h3><p class="hint">Explore live themes from recent reflections.</p><a class="topic" href="#explore?wondering">Wondering</a><a class="topic" href="#explore?maybe">Maybe</a><a class="topic" href="#explore?life">Life</a><a class="topic topic-link" href="#explore">Explore reflections →</a></section>
+      <footer class="side-footer"><a href="#about">About</a><a href="#privacy">Privacy</a><a href="#terms">Terms</a><a href="#contact">Contact</a><a href="#faq">FAQ</a><a href="#guidelines">Guidelines</a><a href="#safety">Safety</a><a href="#accessibility">Accessibility</a><a href="#cookies">Cookies</a><span>© mindRID</span></footer>
+    </aside>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="#home">⌂<small>Home</small></a><a href="#explore">⌕<small>Discover</small></a><a class="auth-required" href="#following">◎<small>Following</small></a><a href="#messages">✉<small>Messages</small></a><a id="mobileMeNav" href="#account">◉<small>Me</small></a>
+  </nav>
+  <button class="mobile-compose" data-action="compose" aria-label="Whisper">+</button>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true"></div>
+</body>
+</html>

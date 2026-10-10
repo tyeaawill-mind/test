@@ -1,0 +1,10 @@
+{
+  "name": "mindRID",
+  "short_name": "mindRID",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F7F3EA",
+  "theme_color": "#F7F3EA",
+  "description": "A private place to put thoughts you don't want to carry.",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
