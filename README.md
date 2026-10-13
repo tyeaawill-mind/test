@@ -1,8 +1,16 @@
-# mindRID V19.0 Inventory Package
+# Mind Compass — Embryonic Foundation v1.0
 
-This is a source-only inventory based on the supplied V18.5 ZIP. It is not a production security certification.
+**Status:** Founder-approved direction; foundation specification prepared for review.  
+**Relationship:** Parallel capability within mindRID; does not replace or reorder the approved V19–V21 roadmap.  
+**Implementation status:** This package is a product/architecture foundation, not a code release and not a live deployment.
 
-- `V19.0-SOURCE-AND-SECURITY-INVENTORY.md`: findings and staged plan.
-- `static_inventory.py`: reproducible static checks; run with Python and the extracted source directory as its argument.
+## Included
 
-No application code or database migrations are modified by this package. Before applying changes, compare the report with a redacted live Supabase schema/policy/function/grant export and migration history. Never share secret/service-role keys.
+1. `MIND-COMPASS-FOUNDATION.md` — mission, product model, non-negotiable principles.
+2. `MIND-COMPASS-STAGED-ROADMAP.md` — dependency-aware staged development plan.
+3. `MIND-COMPASS-DATA-AND-PRIVACY-CONTRACT.md` — conceptual data entities and privacy/AI boundaries.
+4. `MIND-COMPASS-DECISION-REGISTER.md` — approved decisions, proposals, open questions and change control.
+
+## How to use
+
+Keep these documents alongside the mindRID product/engineering documents. Before coding, reconcile the conceptual contracts with the actual V18.5 repository and V19.0 security/data-flow inventory. Do not create migrations or instrument personal behaviour until the live schema, access policies, retention and deletion paths have been verified.
