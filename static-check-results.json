@@ -1,0 +1,19 @@
+{
+  "public_tables": 27,
+  "rls_enabled_explicit": 25,
+  "tables_without_explicit_rls_enable": [
+    "circle_messages"
+  ],
+  "policy_count": 90,
+  "checks": {
+    "google_oauth_in_client": false,
+    "mention_ui_present": true,
+    "mention_consent_schema_or_rpc": false,
+    "account_delete_rpc_defined": true,
+    "account_export_implemented": false,
+    "deactivation_rpc_defined": true,
+    "schema_preview_columns": true,
+    "circle_messages_rls_enabled": false,
+    "schema_cache_reload": true
+  }
+}
