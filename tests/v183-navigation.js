@@ -1,7 +1,9 @@
 const fs=require('fs');const assert=require('assert');
 const app=fs.readFileSync('app.js','utf8');const html=fs.readFileSync('index.html','utf8');const css=fs.readFileSync('styles.css','utf8');
 assert(app.includes("async function home(){const target=location.hash||'#home';"),'Home route is explicit');
-assert(app.includes("app.innerHTML=shell('Home')+feedModeNav()+composer()"),'Home uses the composer-first Home layout');
+assert(/app\.innerHTML=`<div class=\"home-feed-page\">\$\{shell\('Home'\)\}\$\{feedModeNav\(\)\}\$\{mobileComposerTrigger\(\)\}\$\{composer\(\)\}<div id=\"feed\" class=\"feed\">/.test(app),'Home renders title shell, feed navigation, mobile composer trigger, composer and feed container');
+assert(app.includes("function mobileComposerTrigger()")&&app.includes('data-action=\"compose\"'),'Mobile composer trigger has a compose action');
+assert(app.includes('id=\"whisperText\"')&&app.includes('What’s going through your mind?'),'Home composer has the approved prompt and input');
 assert(!app.includes("shell('Whispering','Put down a Whisper"),'Superseded Whispering landing heading is absent');
 assert(app.includes("else if(route==='for-you')feedPage('for-you')"),'For You has its own page');
 assert(app.includes("else if(route==='following')feedPage('following')"),'Following has its own page');
@@ -14,4 +16,4 @@ assert(app.includes('Optional location · © OpenStreetMap'),'Location attributi
 assert(css.includes('.tag-field .location-note{display:block;white-space:nowrap'),'Location note is one horizontal line');
 assert(css.includes('.feed-mode-nav{display:flex'),'Feed modes appear in a separate navigation strip');
 assert(css.includes('.media-preview-options .select{font-size:12px'),'Preview selectors use compact text');
-console.log('PASS: V18.3 navigation regression tests updated to V18.4 Home contract');
+console.log('PASS: Home/navigation contract checks validate rendered structure and key controls');
