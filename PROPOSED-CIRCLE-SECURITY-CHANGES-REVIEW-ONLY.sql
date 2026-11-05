@@ -1,0 +1,31 @@
+-- mindRID V19.1 — REVIEW ONLY; NOT AN EXECUTABLE MIGRATION.
+-- Every statement below is intentionally commented out.
+-- Do not uncomment or run until Circle privacy/roster/count/invitation rules
+-- are explicitly approved and the diagnostic SQL has been reviewed.
+--
+-- Design options to evaluate (not approved):
+--
+-- A) If all Circles remain public/open:
+--    * Keep public Circle discovery and open self-join.
+--    * Replace unrestricted raw group_members SELECT with a narrowly scoped
+--      server-side interface for public member counts and current-user status.
+--    * Keep roster visibility only if the product explicitly intends it.
+--    * Restrict direct INSERT to owner/admin invitation paths; keep self-join
+--      through a SECURITY DEFINER RPC deriving identity from auth.uid().
+--
+-- B) If private/invite-only Circles are approved:
+--    * Add explicit privacy and membership-mode columns through a migration.
+--    * Define invitation records and acceptance/expiry semantics.
+--    * Enforce membership eligibility inside server-side RPCs and RLS.
+--    * Scope group discovery, roster, messages, counts, and realtime events
+--      consistently to the approved visibility model.
+--
+-- C) In either model:
+--    * Revoke PUBLIC EXECUTE on membership mutation RPCs unless required.
+--    * Grant EXECUTE only to authenticated where required.
+--    * Prevent arbitrary role escalation (owner/admin assignment).
+--    * Check deactivated-account behavior and block semantics.
+--    * Preserve owner add-member, member leave, and Circle messaging behavior.
+--
+-- No GRANT, REVOKE, CREATE POLICY, ALTER TABLE, or function replacement is
+--    supplied here because the product rules are not yet confirmed.

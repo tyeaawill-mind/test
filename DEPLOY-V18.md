@@ -7,7 +7,7 @@
 
 ## Static checks
 
-Run `node --check app.js`, then `for f in tests/*.js; do node "$f"; done`, then `unzip -t` on the release ZIP.
+Run `node --check app.js`, then `for f in tests/*.js tests/*.mjs; do [ -f "$f" ] && node "$f" || exit 1; done`, then `unzip -t` on the release ZIP.
 
 ## Required browser/device checks
 

@@ -38,10 +38,14 @@ Five primary mobile destinations: **Home, Discover, Following, Messages, Me**. H
 
 ## Verification
 
-Run from this folder: `for f in tests/*.js; do node "$f"; done`
+Run from this folder: `for f in tests/*.js tests/*.mjs; do [ -f "$f" ] && node "$f" || exit 1; done`
 
 Static tests and archive integrity do not prove real-device rendering, Supabase RLS correctness, or live notifications. Complete the staging checklist before production deployment. Do not apply database migrations blindly to production.
 
 
 ## V18.5 mobile Home frame restoration
 The V18.5 patch restores the signed-in mobile Home layout to the supplied reference: full-width feed tabs and a compact one-line Whisper composer row. See `AUDIT-V18.5-HOME-FRAME.md`. Browser/device and live Supabase validation remain required before production.
+
+## V19.0 account deletion correction
+
+This archive includes the targeted account-deletion hardening package. Follow `V19.0-ACCOUNT-DELETION-FIX.md` for the exact Edge Function → SQL migration → website deployment order. The simulation suite is not a substitute for staging verification.
