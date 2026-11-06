@@ -1,0 +1,14 @@
+const fs=require('fs'),assert=require('assert');
+const app=fs.readFileSync('app.js','utf8'),html=fs.readFileSync('index.html','utf8'),css=fs.readFileSync('styles.css','utf8');
+const edge=fs.readFileSync('supabase/functions/mind-compass-assist/index.ts','utf8');
+for(const token of ['01 · DISCOVER','02 · DEVELOP','03 · REMEMBER','What is waiting in your mind?','Your Reflection Journey','compassRelated','compassDiscovery','compassPreserveDevelopment','compassVisit','compassArchive']) assert(app.includes(token),`product loop capability exists: ${token}`);
+for(const action of ['compass-develop','compass-ai','compass-visit','compass-archive','compass-delete']) assert(app.includes(`a.action==='${action}'`),`delegated action exists: ${action}`);
+assert(app.includes('revisions.push('),'development appends a new version');
+assert(app.includes('The original remains unchanged'),'original reflection preservation is disclosed');
+assert(app.includes('I explicitly consent to send only the original thought'),'per-request explicit AI consent is present');
+assert(app.includes("client.functions.invoke('mind-compass-assist'"),'AI request goes through Supabase Edge Function');
+assert(edge.includes('GEMINI_API_KEY')&&edge.includes('Authorization')&&edge.includes('verify'),'server-side key and authenticated request guard exist');
+assert(!edge.includes('console.log'),'reflection text is not logged');
+assert(html.includes('20261106-v20.1-discover-develop-remember'),'cache key updated');
+assert(css.includes('.compass-discovery-card')&&css.includes('.compass-journey-card'),'new product loop styling exists');
+console.log('PASS: V20.1 Mind Compass product and privacy contract');

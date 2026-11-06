@@ -9,5 +9,5 @@ const checks=[
  ['Post follow/unfollow state hydrates',app.includes("'✓ Following post':'＋ Follow post'")],
  ['Person follow/unfollow remains available',app.includes("data-action=\"unfollow\"")&&app.includes("data-action=\"follow\"")],
  ['Mobile Home returns to top and focuses composer',app.includes(".mobile-nav a[href=\"#home\"]")&&app.includes("scrollTo({top:0,behavior:'smooth'})")],
- ['Cache bust updated',/app\.js\?v=20261106-v20\.0-mind-compass/.test(html)]
+ ['Cache bust updated',/app\.js\?v=20261106-v20\.1-discover-develop-remember/.test(html)]
 ];let failed=false;for(const [name,ok] of checks){console.log(`${ok?'PASS':'FAIL'} ${name}`);if(!ok)failed=true}if(failed)process.exit(1);

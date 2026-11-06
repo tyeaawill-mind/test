@@ -8,7 +8,7 @@ const migration = fs.readFileSync('MIGRATION-V19.0-ACCOUNT-DELETION.sql', 'utf8'
 assert(app.includes("client.functions.invoke('delete-account',{body:{confirm:'DELETE'}})"), 'client calls the Edge Function with explicit confirmation');
 assert(!app.includes("client.rpc('mindrid_delete_account')"), 'client no longer calls legacy deletion RPC');
 assert(!app.includes('SUPABASE_SERVICE_ROLE_KEY'), 'service-role key is absent from browser source');
-assert(html.includes('app.js?v=20261106-v20.0-mind-compass'), 'updated app script has cache bust');
+assert(html.includes('app.js?v=20261106-v20.1-discover-develop-remember'), 'updated app script has cache bust');
 assert(edge.includes('createDeleteAccountHandler') && edge.includes('Deno.serve(handler)'), 'Edge adapter uses the tested handler');
 assert(core.includes('getAuthenticatorAssuranceLevel') && core.includes("currentLevel !== \"aal2\""), 'server enforces AAL2 for verified TOTP users');
 assert(core.includes('ALLOWED_ORIGINS') && !core.includes('Access-Control-Allow-Origin\": \"*'), 'CORS is restricted to configured mindRID/dev origins');

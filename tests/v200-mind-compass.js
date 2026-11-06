@@ -6,5 +6,5 @@ for(const action of ['compass-select','compass-start','compass-stop','compass-de
 assert(app.includes('localStorage.setItem(COMPASS_KEY'), 'Compass persistence is local and explicit');
 assert(app.includes('not yet synced to your mindRID account'), 'local-only limitation disclosed in UI');
 assert(css.includes('.compass-wheel')&&css.includes('@media(max-width:680px)'), 'responsive Compass styling exists');
-assert(html.includes('app.js?v=20261106-v20.0-mind-compass'),'V20 cache key is present');
+assert(html.includes('app.js?v=20261106-v20.1-discover-develop-remember'),'V20 cache key is present');
 console.log('PASS: V20.0 Mind Compass feature contract');
