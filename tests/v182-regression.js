@@ -15,7 +15,7 @@ const checks = [
   ['place lookup offers suggestions and manual entry', app.includes('nominatim.openstreetmap.org/search') && app.includes('select-location')],
   ['responsive composer refinements exist', css.includes('.tag-editor-refined') && css.includes('@media(max-width:680px)')],
   ['Like, Memory, Report, Reply, Share and Why this handlers exist', ['like','save-toggle','report','open','share','why-reflection'].every(x=>app.includes(`a.action==='${x}'`))],
-  ['landing page uses cache-busted app.js', /app\.js\?v=20261022-v19\.0-account-deletion/.test(fs.readFileSync('index.html','utf8'))],
+  ['landing page uses cache-busted app.js', /app\.js\?v=20261106-v20\.0-mind-compass/.test(fs.readFileSync('index.html','utf8'))],
 ];
 let failed=0;
 for(const [name,ok] of checks){console.log(`${ok?'PASS':'FAIL'}: ${name}`); if(!ok)failed++;}

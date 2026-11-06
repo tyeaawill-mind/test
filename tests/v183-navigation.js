@@ -1,7 +1,7 @@
 const fs=require('fs');const assert=require('assert');
 const app=fs.readFileSync('app.js','utf8');const html=fs.readFileSync('index.html','utf8');const css=fs.readFileSync('styles.css','utf8');
 assert(app.includes("async function home(){const target=location.hash||'#home';"),'Home route is explicit');
-assert(app.includes("app.innerHTML=`<div class=\"home-feed-page\">${shell('Home')}${feedModeNav()}${mobileComposerTrigger()}${composer()}"),'Home uses the current feed-first layout with mobile composer trigger and composer');
+assert(app.includes('home-feed-page')&&app.includes('mobileComposerTrigger()')&&app.includes('composer()')&&app.includes('href=\"#compass\"'),'Home preserves composer/feed layout and adds a Mind Compass entry point');
 assert(!app.includes("shell('Whispering','Put down a Whisper"),'Superseded Whispering landing heading is absent');
 assert(app.includes("else if(route==='for-you')feedPage('for-you')"),'For You has its own page');
 assert(app.includes("else if(route==='following')feedPage('following')"),'Following has its own page');

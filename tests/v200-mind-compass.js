@@ -1,0 +1,10 @@
+const fs=require('fs'),assert=require('assert');
+const app=fs.readFileSync('app.js','utf8'),html=fs.readFileSync('index.html','utf8'),css=fs.readFileSync('styles.css','utf8');
+for(const route of ["route==='compass'",'data-route="compass"','href="#compass"']) assert((app+html).includes(route),`Compass route/navigation exists: ${route}`);
+for(const token of ['Present','Future','Background','Ultimate','compassStart','compassStop','compassWaypointForm','compassSave','compassLoad']) assert(app.includes(token),`Compass capability exists: ${token}`);
+for(const action of ['compass-select','compass-start','compass-stop','compass-delete']) assert(app.includes(`a.action==='${action}'`),`delegated handler exists: ${action}`);
+assert(app.includes('localStorage.setItem(COMPASS_KEY'), 'Compass persistence is local and explicit');
+assert(app.includes('not yet synced to your mindRID account'), 'local-only limitation disclosed in UI');
+assert(css.includes('.compass-wheel')&&css.includes('@media(max-width:680px)'), 'responsive Compass styling exists');
+assert(html.includes('app.js?v=20261106-v20.0-mind-compass'),'V20 cache key is present');
+console.log('PASS: V20.0 Mind Compass feature contract');

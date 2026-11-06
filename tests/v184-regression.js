@@ -1,7 +1,7 @@
 const fs=require('fs');const path=require('path');const root=path.resolve(__dirname,'..');
 const app=fs.readFileSync(path.join(root,'app.js'),'utf8');const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const checks=[
- ['Home title restored',/app\.innerHTML=`<div class=\"home-feed-page\">\$\{shell\('Home'\)\}\$\{feedModeNav\(\)\}\$\{mobileComposerTrigger\(\)\}\$\{composer\(\)\}/.test(app)],
+ ['Home title restored',/app\.innerHTML=`<div class=\"home-feed-page\">\$\{shell\('Home'\)\}.*?\$\{feedModeNav\(\)\}\$\{mobileComposerTrigger\(\)\}\$\{composer\(\)\}/.test(app)],
  ['Whispering headline removed',!app.includes("shell('Whispering'")],
  ['Removed Home subtitle',!app.includes('Put down a Whisper, then encounter reflections worth returning to.')],
  ['Follow post action on feed cards',/data-action="subscription-toggle" data-id="\$\{esc\(w\.id\)\}" aria-pressed="false">＋ Follow post/.test(app)],
@@ -9,5 +9,5 @@ const checks=[
  ['Post follow/unfollow state hydrates',app.includes("'✓ Following post':'＋ Follow post'")],
  ['Person follow/unfollow remains available',app.includes("data-action=\"unfollow\"")&&app.includes("data-action=\"follow\"")],
  ['Mobile Home returns to top and focuses composer',app.includes(".mobile-nav a[href=\"#home\"]")&&app.includes("scrollTo({top:0,behavior:'smooth'})")],
- ['Cache bust updated',/app\.js\?v=20261022-v19\.0-account-deletion/.test(html)]
+ ['Cache bust updated',/app\.js\?v=20261106-v20\.0-mind-compass/.test(html)]
 ];let failed=false;for(const [name,ok] of checks){console.log(`${ok?'PASS':'FAIL'} ${name}`);if(!ok)failed=true}if(failed)process.exit(1);
