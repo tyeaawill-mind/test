@@ -1,0 +1,62 @@
+-- mindRID V19.2 — REVIEW ONLY; DO NOT EXECUTE.
+-- Approved model: Public + Private Circles.
+-- This is a migration outline, not a deployable migration. It intentionally
+-- contains no active DDL/DML because live schema, data and app call paths must
+-- be revalidated immediately before implementation.
+--
+-- 1) Inventory existing groups and owner membership.
+-- SELECT g.id, g.name, g.owner_id,
+--        count(*) FILTER (WHERE gm.user_id=g.owner_id AND gm.role='owner') AS owner_rows
+-- FROM public.groups g
+-- LEFT JOIN public.group_members gm ON gm.group_id=g.id
+-- GROUP BY g.id, g.name, g.owner_id
+-- ORDER BY g.created_at;
+--
+-- 2) Proposed schema (review exact names/constraints before activation):
+-- ALTER TABLE public.groups ADD COLUMN visibility text NOT NULL DEFAULT 'public';
+-- ALTER TABLE public.groups ADD CONSTRAINT groups_visibility_check
+--   CHECK (visibility IN ('public','private'));
+--
+-- CREATE TABLE public.circle_invitations (
+--   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+--   circle_id uuid NOT NULL REFERENCES public.groups(id) ON DELETE CASCADE,
+--   invitee_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+--   inviter_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+--   status text NOT NULL DEFAULT 'pending'
+--     CHECK (status IN ('pending','accepted','declined','revoked','expired')),
+--   created_at timestamptz NOT NULL DEFAULT now(),
+--   updated_at timestamptz NOT NULL DEFAULT now(),
+--   expires_at timestamptz,
+--   CHECK (invitee_id <> inviter_id)
+-- );
+--
+-- CREATE UNIQUE INDEX circle_invites_one_pending
+--   ON public.circle_invitations(circle_id,invitee_id) WHERE status='pending';
+--
+-- 3) Required policy/function work (not supplied as executable SQL here):
+-- - RLS on circle_invitations; invitee reads own invitations; owner reads/manages
+--   invitations for owned Circle; no client direct status/identity mutation.
+-- - groups SELECT: public rows for authenticated discovery plus own private
+--   Circle/member private Circle rows; anonymous access denied by grants/policy.
+-- - group_members SELECT: public roster for authenticated users; private roster
+--   only for members/owner. Do not expose full membership graph for counts.
+-- - group_members INSERT/UPDATE: deny direct client writes; RPCs only.
+-- - RPC join_public_circle derives caller from auth.uid(), verifies active user,
+--   public visibility and block/account policy, then inserts role='member'.
+-- - RPC accept_circle_invitation derives caller from auth.uid(), locks pending
+--   invitation row, verifies not expired/revoked and private Circle, then inserts
+--   role='member' and marks invitation accepted atomically.
+-- - RPC invite_to_private_circle derives inviter from auth.uid(), verifies
+--   ownership/authorized role, private Circle and eligible invitee.
+-- - RPC revoke_circle_invitation derives actor from auth.uid() and verifies owner.
+-- - Reconcile circle_messages REST + Realtime access with membership-only checks.
+-- - Revoke PUBLIC EXECUTE on mutation RPCs; grant EXECUTE to authenticated only.
+-- - Avoid broad table grants; add explicit least-privilege grants per operation.
+--
+-- 4) Rollback plan (not executable until actual migration is authored):
+-- - Restore captured pre-migration policies, function definitions and ACLs.
+-- - Remove new RPCs/policies/indexes/table only after checking for live invitation
+--   records and preserving any required audit history.
+-- - Remove groups.visibility only after restoring prior discovery semantics.
+--
+-- No statements in this file should be uncommented and run as-is.
